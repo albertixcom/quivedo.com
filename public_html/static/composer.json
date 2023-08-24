@@ -1,0 +1,28 @@
+{
+    "name": "disual/ottica-static-products",
+    "description": "Ottica Static Products: Permette di servire le pagine dei prodotti eliminati dal database",
+    "authors": [
+        {
+            "name": "albertix",
+            "email": "albertix.com@gmail.com"
+        },
+        {
+            "name": "luca m",
+            "email": "luca@disual.it"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Disual\\StaticProducts\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.4",
+        "monolog/monolog": "^2.5.0",
+        "envms/fluentpdo": "^v2.2.4",
+        "nyholm/psr7": "^1.5.1",
+        "nyholm/psr7-server": "^1.0.2",
+        "guzzlehttp/guzzle": "^7.7.0"
+    }
+}
+

@@ -1,0 +1,283 @@
+<?php
+use Disual\StaticProducts\App;
+use Disual\StaticProducts\Core\AppConfig;
+use Disual\StaticProducts\Core\AppContext;
+use Disual\StaticProducts\I18N\Lang;
+
+  /** @var $this App */
+  $productData = App::get('productData');
+  $baseUrl = App::get('baseUrl');
+  $rootUrl = App::get('rootUrl');
+  $slug = App::get('slug');
+
+//  echo "<pre>";
+//  print_r($productData);
+//  die();
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/data/template/styles/main.css">
+  <title><?=$productData['name']?></title>
+</head>
+<body>
+
+<div class="top-links-wrap">
+  <div class="top-links container d-flex justify-content-between align-items-center flex-grow-0 flex-row">
+    <div class="dropdown custom-dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <?= AppConfig::LANGS_X[AppContext::$curLang]['name'] ?>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+        <li><a class="dropdown-item" href="<?=$rootUrl?><?=$slug?>" <?=(AppContext::$curLang=='it')?'selected':''?>>Italiano</a></li>
+        <li><a class="dropdown-item" href="<?=$rootUrl?>en/<?=$slug?>" <?=(AppContext::$curLang=='en')?'selected':''?>>English</a></li>
+      </ul>
+    </div>
+    <div class="top-links-area d-none d-md-flex justify-content-between align-items-start flex-shrink-0">
+      <a href="<?=$baseUrl?>contacts/" title="Assistenza clienti"><?=Lang::l("Customer Support")?></a>
+      <a href="<?=$baseUrl?>customer/account/login/" title="Accedi"><?=Lang::l("Log In")?></a>
+      <a href="<?=$baseUrl?>customer/account/create/" title="Registrati"><?=Lang::l("Sign up")?></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="<?=$baseUrl?>">
+      <img src="<?=$rootUrl?>skin/frontend/smartwave/otticait/images/logo-otticait.png" class="header-logo" alt="OtticaIT">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <form id="search_mini_form" action="<?=$baseUrl?>catalogsearch/result/" method="get" class="d-flex my-2 my-lg-0">
+
+        <div class="input-group mb-3 top-search">
+          <input class="form-control" id="search" type="search" name="q" placeholder="<?=Lang::l("Search here")?>" aria-label="<?=Lang::l("Search here")?>" autocomplete="off" aria-describedby="serach-icon">
+          <span class="input-group-text" id="serach-icon">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </span>
+        </div>
+      </form>
+      <ul class="navbar-nav d-lg-none">
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("best-sellers")?>"><?=Lang::l("Best sellers")?></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("occhiali-da-sole")?>"><?=Lang::l("Sunglasses")?></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("occhiali-da-vista")?>"><?=Lang::l("Eyeglasses")?></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("caschi")?>"><?=Lang::l("Helmets")?></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("marchi")?>"><?=Lang::l("Brands")?></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("nuovi-arrivi")?>?dir=desc&order=entity_id"><?=Lang::l("New arrivals")?></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("puoi-fidarti")?>"><?=Lang::l("You can trust me!")?></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?>videos"><?=Lang::l("Video")?></a></li>
+        <?php if (AppContext::$curLang == 'it'): ?>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?>blog">Blog</a></li>
+        <?php endif; ?>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="menu-wrapper-desktop d-none d-lg-block">
+  <div class="container">
+    <ul class="nav justify-content-center">
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("best-sellers")?>"><?=Lang::l("Best sellers")?></a></li>
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("occhiali-da-sole")?>"><?=Lang::l("Sunglasses")?></a></li>
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("occhiali-da-vista")?>"><?=Lang::l("Eyeglasses")?></a></li>
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("caschi")?>"><?=Lang::l("Helmets")?></a></li>
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("marchi")?>"><?=Lang::l("Brands")?></a></li>
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("nuovi-arrivi")?>?dir=desc&order=entity_id"><?=Lang::l("New arrivals")?></a></li>
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?><?=Lang::l("puoi-fidarti")?>"><?=Lang::l("You can trust me!")?></a></li>
+      <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?>videos"><?=Lang::l("Video")?></a></li>
+      <?php if (AppContext::$curLang == 'it'): ?>
+        <li class="nav-item"><a class="nav-link" href="<?=$baseUrl?>blog">Blog</a></li>
+      <?php endif; ?>
+    </ul>
+  </div>
+</div>
+
+<main>
+  <div class="container product-container">
+    <div class="row justify-content-center align-items-center g-2">
+      <div class="product-img-box col-md-7">
+      <?php if (isset($productData['image_url'])): ?>
+        <img class="img-fluid" src="<?=$productData['image_url']?>" alt=""></div>
+      <?php endif; ?>
+      <div class="product-shop col-md-5">
+        <div class="product-name">
+          <h1 itemprop="name"><?=$productData['attributes']['collezione']['value']." ".$productData['attributes']['genere_new']['value']." ".$productData['attributes']['manufacturer']['value']." ".$productData['attributes']['nome_modello']['value']." ".$productData['sku']?></h1>
+        </div>
+        <?php if (!empty($productData['manufacturer_url'])): ?>
+        <a class="btn btn-sm btn-outline-danger link-to-brand" href="<?=$productData['manufacturer_url']?>" role="button">
+          <?=Lang::l("Not available, see more items ").$productData['attributes']['manufacturer']['value']?>
+          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </a>
+        <?php endif; ?>
+        <div class="product-reviews mt-3">
+          <div class="rating-shop feedaty-shop-snippets"><?=Lang::l("Verified reviews OtticaIT")?></div>
+          <div class="feedaty-shop-snippets d-flex align-items-center">
+            <div class="feedaty_widget" data-ver="2021" data-id="64d48ed1a63ea" data-type="merchant" data-variant="Striscia-2wrap" data-lang="all" data-gui="<?= AppConfig::LANGS_X[AppContext::$curLang]['intl_code']?>" ></div>
+          </div>
+        </div>
+        <div class="pt-3 pt-lg-5 pb-3">
+          <img class="img-fluid" src="<?=$rootUrl?>media/wysiwyg/pagamenti/pagamenti.png" alt="<?=Lang::l("Payment acepted")?>">
+        </div>
+      </div>
+    </div>
+
+    <section class="product-dettails">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="attributes-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><?=Lang::l("Features")?></button>
+        </li>
+        <?php if (isset($productData['description']) && !empty($productData['description'])):?>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="description-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"><?=Lang::l("Description")?></button>
+        </li>
+        <?php endif; ?>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="attributes-tab">
+          <div class="card">
+            <div class="card-body">
+
+              <table class="table">
+                <tbody>
+                 <?php foreach ($productData['attributes'] As $attrName => $attribute): ?>
+                   <?php if ($attribute['type']=='boolean'&&$attribute['value']=='No'):?>
+                   <?php else: ?>
+                     <tr>
+                       <th><?=$attribute['label']?></th>
+                       <td><?=$attribute['value']?></td>
+                     </tr>
+                   <?php endif; ?>
+                 <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <?php if (isset($productData['description']) && !empty($productData['description'])):?>
+        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="description-tab">
+          <div class="card">
+            <div class="card-body"><?=$productData['description']?></div>
+          </div>
+        </div>
+        <?php endif; ?>
+      </div>
+    </section>
+  </div>
+</main>
+<footer>
+
+  <section class="widget-feedaty">
+    <div class="review-slider container mb-3">
+      <h2 class="section-title"><span><?=Lang::l("The opinions of our customers")?></span></h2>
+      <div class="feedaty_widget" data-ver="2021" data-id="64d48ed1a63fa" data-type="carousel" data-variant="carosello-1" data-lang="all" data-gui="<?= AppConfig::LANGS_X[AppContext::$curLang]['intl_code']?>" ></div>
+    </div>
+  </section>
+
+  <div class="footer-middle">
+    <div class="container">
+
+      <div class="row py-5 footer-middle-1">
+        <div class="col-lg-2">
+          <img class="img-fluid" src="<?=$rootUrl?>media/wysiwyg/otticait/footer/logo-otticait.png" alt="Ottica It">
+        </div>
+        <div class="col-lg-1">
+          <img class="img-fluid" src="<?=$rootUrl?>media/wysiwyg/otticait/100-original.jpg" alt="Occhiali 100% originali">
+        </div>
+        <div class="col-lg-8">
+          <p class="text-bigger"><?=Lang::l("FOOTER_TEXT_1")?></p>
+          <p class="text-justify">
+            <?=Lang::l("FOOTER_TEXT_2")?>
+          </p>
+        </div>
+      </div>
+      <div class="row py-5 footer-middle-2">
+        <div class="col-lg-4">
+          <ul class="contact-info">
+            <li><a href="<?=$baseUrl?><?=Lang::l("negozio")?>" title="Negozio"><?=Lang::l("Shop")?></a></li>
+            <li><a href="<?=$baseUrl?>contacts" title="Contatti"><?=Lang::l("Contacts")?></a></li>
+            <li><a href="mailto:info@otticait.com">info@otticait.com</a></li>
+            <li><?=Lang::l("OPENING_DAYS")?></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <ul class="contact-info">
+            <li><a href="<?=$baseUrl?><?=Lang::l("termini-e-condizioni")?>" title="Terms and conditions"><?=Lang::l("Terms and conditions")?></a></li>
+            <li><a href="<?=$baseUrl?><?=Lang::l("spedizioni-e-pagamenti")?>" title="Shipments and payments"><?=Lang::l("Shipments and payments")?></a></li>
+            <li><a href="<?=$baseUrl?><?=Lang::l("reso-cambio")?>" title="Change or return"><?=Lang::l("Change or return")?></a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <ul class="contact-info">
+            <li><a href="<?=$baseUrl?><?=Lang::l("occhiali-da-sole")?>" title="Sunglasses"><?=Lang::l("Sunglasses")?></a></li>
+            <li><a href="<?=$baseUrl?><?=Lang::l("occhiali-da-vista")?>" title="Eyeglasses"><?=Lang::l("Eyeglasses")?></a></li>
+            <li><a href="<?=$baseUrl?><?=Lang::l("maschere-da-sci")?>" title="Goggles"><?=Lang::l("Goggles")?></a></li>
+            <li><a href="<?=$baseUrl?><?=Lang::l("caschi")?>" title="Helmets"><?=Lang::l("Helmets")?></a></li>
+            <li><a href="<?=$baseUrl?><?=Lang::l("marchi")?>" title="Brands"><?=Lang::l("Brands")?></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container py-5">
+      <div class="row footer-bottom-1 pb-3">
+        <div class="col-12"><?=Lang::l("We are certified dealers of leading eyewear manufacturers")?></div>
+        <div class="col-lg-7">
+          <div class="row">
+            <div class="col-4 col-sm-2 text-center">
+              <img src="<?=$rootUrl?>media/wysiwyg/otticait/footer/logo-luxottica.png" alt="luxottica">
+            </div>
+            <div class="col-4 col-sm-2 text-center">
+              <img src="<?=$rootUrl?>media/wysiwyg/otticait/footer/logo-safilo.png" alt="safilo">
+            </div>
+            <div class="col-4 col-sm-2 text-center">
+              <img src="<?=$rootUrl?>media/wysiwyg/otticait/footer/logo-marchon.png" alt="marchon">
+            </div>
+            <div class="col-4 col-sm-2 text-center">
+              <img src="<?=$rootUrl?>media/wysiwyg/otticait/footer/logo-kering.png" alt="kering">
+            </div>
+            <div class="col-4 col-sm-2 text-center">
+              <img src="<?=$rootUrl?>media/wysiwyg/otticait/footer/logo-de-rigo.png" alt="de rigo">
+            </div>
+            <div class="col-4 col-sm-2 text-center">
+              <img src="<?=$rootUrl?>media/wysiwyg/otticait/footer/logo-marcolin.png" alt="marcolin">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 text-right">
+          <img class="img-fluid" src="<?=$rootUrl?>media/wysiwyg/pagamenti/pagamenti.png" alt="Pagamenti sicuri">
+        </div>
+      </div>
+
+      <div class="footer-bottom-2 pt-5">
+        <p><?=Lang::l("ADDRESS")?></p>
+        <p><?=Lang::l("Authorization for e-commerce activities nr. 579 of 20/09/2018")?></p>
+        <p>
+          <a href="<?=$baseUrl?><?=Lang::l("informativa-privacy")?>" title="<?=Lang::l("Privacy policy")?>"><?=Lang::l("Privacy policy")?></a> - <a href="<?=$baseUrl?><?=Lang::l("informativa-cookie")?>" title="<?=Lang::l("Cookie policy")?>"><?=Lang::l("Cookie policy")?></a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+<script src="/static/data/template/js/bundle.js?v=<?=time()?>"></script>
+<script class="feedaty_sdk" src="https://widget.feedaty.com/v3.0.0/js/2021/10216666/feedaty.min.js" async ></script>
+<script type="text/javascript">
+var _iub = _iub || [];
+_iub.csConfiguration = {"perPurposeConsent":true,"siteId":2163566,"whitelabel":false,"cookiePolicyId":11635534,"lang":"<?=(AppContext::$curLang)?>","cookiePolicyUrl":"https://www.otticait.com/informativa-privacy", "banner":{ "acceptButtonDisplay":true,"closeButtonRejects":true,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"float-top-center","rejectButtonDisplay":true }};
+</script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
+</body>
+</html>
