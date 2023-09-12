@@ -26,7 +26,8 @@ class MagentoHelper {
     $cachePath = CacheHelper::getCachePath("/products/attributes");
     $cacheFile =  $cachePath."/all_frontend_attributes_".$lang.".json";
     if (file_exists($cacheFile)) {
-      return json_decode(file_get_contents($cacheFile), true);
+      unlink($cacheFile);
+      //return json_decode(file_get_contents($cacheFile), true);
     }
 
 

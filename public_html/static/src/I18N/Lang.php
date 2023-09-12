@@ -17,20 +17,29 @@ class Lang {
     }
   }
 
-  public static function is(string $key):bool {
+  public static function is(string $key, string $group = ''):bool {
     if (empty(self::$texts)) {
       self::loadLang(AppContext::$curLang);
     }
+    if (!empty($group) && isset(self::$texts[$group]) && key_exists($key, self::$texts[$group])) {
+      return true;
+    }
+
     if (key_exists($key, self::$texts)) {
       return true;
     }
     return false;
   }
 
-  public static function l(string $key) {
+  public static function l(string $key, string $group = '') {
     if (empty(self::$texts)) {
       self::loadLang(AppContext::$curLang);
     }
+
+    if (!empty($group) && isset(self::$texts[$group]) && key_exists($key, self::$texts[$group])) {
+      return self::$texts[$group][$key];
+    }
+
     if (key_exists($key, self::$texts)) {
       return self::$texts[$key];
     }

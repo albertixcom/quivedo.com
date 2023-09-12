@@ -1,7 +1,8 @@
 <?php
 
 
-namespace Disual\StaticProducts\Orwell;
+namespace Disual\StaticProducts\Feedaty;
+
 
 use Exception;
 use GuzzleHttp\Client;
@@ -9,24 +10,19 @@ use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 
-class OrwellClient {
-
+class FeedatyClient {
   public static array $endpoints = [
-    'GetProduct' => [
+    'GetProductsRating' => [
       'method' => 'GET',
-      'action' => 'GetProduct',
-      'path' => '/products/getProduct/{sku}'
-    ],
-    'GetProductExtended' => [
-      'method' => 'GET',
-      'action' => 'GetProductExtended',
-      'path' => '/products/getProductExtended/{SKU_OR_URL}'
-    ],
+      'action' => 'GetProductsRating',
+      'url' => 'https://widget.zoorate.com/go.php?function=feed&action=ws&task=product'
+    ]
   ];
 
   private array $config = [
     'endpoint' => null,
-    'apikey' => null,
+    'merchantCode' => null,
+    'clientSecret' => null,
     'user-agent' => "PHP/7.4"
   ];
   /*
@@ -41,44 +37,16 @@ class OrwellClient {
 
 
   /**
-   * @param string $sku
    * @return array|null
    * @noinspection PhpUnused
    */
-  public function GetProduct(string $sku): ?array {
+  public function GetProductsRating(): ?array {
     try {
       return $this->request(
-        'GetProduct',
-        ['sku' => $sku]
+        'GetProductsRating'
       );
     } catch (Exception $e) {
       echo "ERROR > ".$e->getMessage()."\n";
-      return null;
-    }
-  }
-
-  /**
-   * @param string|null $sku
-   * @param string|null $url
-   * @return array|null
-   * @noinspection PhpUnused
-   */
-  public function GetProductExtended(string $sku = null, string $url = null): ?array {
-    try {
-      if ($url) {
-        return $this->request(
-          'GetProductExtended',
-          ['SKU_OR_URL' => $url]
-        );
-      } else {
-        return $this->request(
-          'GetProductExtended',
-          ['SKU_OR_URL' => $sku]
-        );
-      }
-    } catch (Exception $e) {
-      echo "ERROR > ".$e->getMessage()."\n";
-      print_r($e);
       return null;
     }
   }
@@ -108,11 +76,11 @@ class OrwellClient {
 
   /**
    * @throws Exception
+   * @noinspection PhpSameParameterValueInspection
    */
   private function request($endPoint, array $params = [], array $query = [], $body = null, $raw = false) {
 
     $endPoint = self::get($endPoint);
-
 
     try{
 
@@ -121,18 +89,12 @@ class OrwellClient {
         'User-Agent' => $this->config['user-agent'],
       ];
 
-      if ($this->config['apikey'] != null) {
-        $headers['X-API-Key'] = $this->config['apikey'];
-      }
-
       $requestOptions = [
         'headers' => $headers,
         'body' => $body,
         RequestOptions::VERIFY  => false,
         //"debug" => true,
       ];
-
-
 
       ksort($query);
 
@@ -149,6 +111,13 @@ class OrwellClient {
         }
       }
 
+      if (isset($endPoint['url'])) {
+        $url = '';
+        $this->config['endpoint'] = $endPoint['url'].'&merchant_code='.$this->config['merchantCode'];
+        unset($requestOptions['query']);
+        //unset($requestOptions['headers']);
+      }
+
       $response = $this->client->request(
         $endPoint['method'],
         $this->config['endpoint'] . $url,
@@ -156,7 +125,6 @@ class OrwellClient {
       );
 
       $body = (string) $response->getBody();
-
 
       if ($raw) {
         return $body;
@@ -182,5 +150,4 @@ class OrwellClient {
       throw new Exception('An error occured');
     }
   }
-
 }

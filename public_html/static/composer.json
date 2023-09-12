@@ -22,7 +22,7 @@
         "envms/fluentpdo": "^v2.2.4",
         "nyholm/psr7": "^1.5.1",
         "nyholm/psr7-server": "^1.0.2",
-        "guzzlehttp/guzzle": "^7.7.0"
+        "guzzlehttp/guzzle": "^7.7.0",
+        "league/oauth2-client": "^2.7"
     }
 }
-

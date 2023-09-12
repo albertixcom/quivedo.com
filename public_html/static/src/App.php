@@ -55,9 +55,9 @@ class App {
    * serve semplicemente come proxy ed in caso di url non registrato,
    * prosegue con l'elaborazioni interne di MAGENTO (visualizza pagina 404)
    *
-   * Esempi:
-   * https://www.otticait.com/calvin-klein-ck5469-035
-   * https://www.otticait.com/en/calvin-klein-ck5469-035
+   * Esempi: (da url rewrite)
+   * https://www.quivedo.com/victoria-beckham-vb90s-720
+   * https://www.quivedo.com/en/victoria-beckham-vb90s-720
    *
    */
   public function dispatch() {
@@ -70,10 +70,15 @@ class App {
     // codice della lingua, questa viene salvata nel contesto
     //
     $lang = AppConfig::DEFAULT_LANG;
+
     $_lang = RequestUtils::getPathSegment($request, 1);
     $langs = array_keys(AppConfig::LANGS_X);
     if (!empty($_lang) && in_array($_lang,$langs)) {
       $lang = $_lang;
+    }
+    $host = $request->getUri()->getHost();
+    if ($host == 'nl.quivedo.com') {
+      $lang = 'nl';
     }
     AppContext::$curLang = $lang;
 
@@ -111,12 +116,16 @@ class App {
         $this->storeCacheData($data);
       }
     }
-
     if (!$data) {
       return;
     }
 
     $this->formatData($data);
+
+    if (isset($data['price'])) {
+        $data['price']['date'] = date('Y-m-d', $dbData['created_at']);
+    }
+
     // url potrebbe contenere la lingua (questo viene costruito da Magento)
     $baseUrl = \Mage::getBaseUrl();
     // root url (senza lingua)
@@ -135,7 +144,6 @@ class App {
 
     // -- termina qui (non deve passare oltre)
     die();
-
   }
 
   /**
@@ -194,7 +202,7 @@ class App {
   /**
    * @param array $productData
    */
-  private function  formatData(array &$productData) {
+  private function formatData(array &$productData) {
 
 
     $baseUrl = \Mage::getBaseUrl();
@@ -203,12 +211,20 @@ class App {
     // mapping dei nome di attributi
     $_attributes = [];
     $allAttributesNames = MagentoHelper::getAllAttributesNames($curLang);
+
+    $productMetas = [
+      "productID" => 'sku:'.$productData['sku'],
+      "mpn" => $productData['sku'],
+
+    ];
+    $productData['productMetas'] = $productMetas;
+
     foreach ($productData['attributes'] As $attrCode => $attribute) {
       $label = '';
       if (isset($allAttributesNames[$attrCode])) {
         $label = $allAttributesNames[$attrCode]['label'];
-        if ($curLang != AppConfig::DEFAULT_LANG && Lang::is($label)) {
-          $label = Lang::l($label);
+        if ($curLang != AppConfig::DEFAULT_LANG && Lang::is($label,'attributes_values')) {
+          $label = Lang::l($label,'attributes_values');
         }
       }
 
@@ -218,6 +234,8 @@ class App {
           $_v = $item['value'];
           if (Lang::is($_v)) {
             $_v = Lang::l($_v);
+          } elseif (Lang::is($_v, 'attributes_values')) {
+            $_v = Lang::l($_v, 'attributes_values');
           }
           $_values[] = $_v;
         }
@@ -235,6 +253,8 @@ class App {
           $_v = $attribute['value'];
           if (Lang::is($_v)) {
             $_v = Lang::l($_v);
+          } elseif (Lang::is($_v, 'attributes_values')) {
+            $_v = Lang::l($_v, 'attributes_values');
           }
           $_attributes[$attrCode] = [
             'label' => $label,
@@ -250,6 +270,48 @@ class App {
     if (isset($productData['attributes']['manufacturer'])) {
       $manufacturerName = $productData['attributes']['manufacturer']['value'];
       $productData['manufacturer_url'] = $baseUrl . \Mage::getModel('catalog/product_url')->formatUrlKey($manufacturerName);
+    }
+
+    $description = '';
+    if (isset($productData['description']) && !empty($productData['description'])) {
+      if (is_array($productData['description'])) {
+        foreach ($productData['description'] As $lang => $_description) {
+          if (!empty($_description) && $lang == AppContext::$curLang) {
+            $description = $_description;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!empty($description)) {
+      $productData['description'] = $description;
+    } else {
+      unset($productData['description']);
+    }
+
+    $price = 0.0;
+    if (isset($productData['special_price'])) {
+      $price = round($productData['special_price'],2);
+
+    } elseif (isset($productData['price'])) {
+      $price = round($productData['price'],2);
+    }
+    unset($productData['special_price']);
+    unset($productData['price']);
+    if ($price>0) {
+      $productData['price']['value'] = $price;
+    }
+
+    $feedatyFile =  CacheHelper::getCachePath("/feedaty") . "/rating.json";
+    if (file_exists($feedatyFile)) {
+      $data = json_decode(file_get_contents($feedatyFile), true);
+      if (isset($data['AvgRating']) && isset($data['RatingsCount'])) {
+        $productData['feedaty'] = [
+          'AvgRating' => $data['AvgRating'],
+          'RatingsCount' => $data['RatingsCount'],
+        ];
+      }
     }
   }
 

@@ -15,6 +15,10 @@
   "prod": {
 
   },
+  "feedaty": {
+    "merchantCode": "10215245",
+    "clientSecret": "914eafda302d4c64be181d68fbb72804"
+  },
   "dev": {
 
   },

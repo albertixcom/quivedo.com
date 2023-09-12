@@ -13,16 +13,28 @@ class AppArgs {
    */
   private static bool $runTest = false;
   private static bool $buildSitemap = false;
+  private static bool $deleteProducts = false;
+  private static bool $feedaty = false;
+
+  private static bool $noDelete = false;
 
   /*
    * Setters/Getters
    */
+  public static function setDeleteProducts(bool $deleteProducts) { self::$deleteProducts = $deleteProducts; }
+  public static function getDeleteProducts():bool { return self::$deleteProducts; }
 
-  public static function setBuildSitemap(string $buildSitemap) { self::$buildSitemap = $buildSitemap; }
-  public static function getBuildSitemap():string { return self::$buildSitemap; }
+  public static function setBuildSitemap(bool $buildSitemap) { self::$buildSitemap = $buildSitemap; }
+  public static function getBuildSitemap():bool { return self::$buildSitemap; }
 
+  public static function setFeedaty(bool $feedaty) { self::$feedaty = $feedaty; }
+  public static function getFeedaty():bool { return self::$feedaty; }
 
-
+  /**
+   * Flags
+   * @return bool
+   */
+  public static function getNoDelete():bool { return self::$noDelete; }
 
   /**
    *
@@ -76,8 +88,11 @@ class AppArgs {
 
     $longOptions[] = "run-test";
     $longOptions[] = "build-sitemap";
+    $longOptions[] = "delete-products";
+    $longOptions[] = "feedaty";
 
-    $shortOptions[] = "csv:";
+    // flags
+    $longOptions[] = "no-delete";
 
     // --------- Inizio elaborazione
     $options = getopt(implode("", $shortOptions), $longOptions);
@@ -88,9 +103,18 @@ class AppArgs {
 
     if (array_key_exists("run-test", $options)) {
       self::$runTest = true;
+    } elseif (array_key_exists("delete-products", $options)) {
+      self::$deleteProducts = true;
     } elseif (array_key_exists("build-sitemap", $options)) {
       self::$buildSitemap = true;
+    } elseif (array_key_exists("feedaty", $options)) {
+      self::$feedaty = true;
     }
+
+    if (array_key_exists("no-delete", $options)) {
+      self::$noDelete = true;
+    }
+
   }
 
   static function formatBool($var = true): string {

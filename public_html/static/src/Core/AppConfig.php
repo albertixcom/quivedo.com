@@ -16,18 +16,23 @@ class AppConfig {
   const DEFAULT_LANG = 'it';
   const LANGS_X = [
     'it' => [
-      'name' => 'Italiano',
+      'name' => 'ITA',
       'intl_code' => 'it-IT',
       'store_id' => 1
     ],
     'en' => [
-      'name' => 'English',
+      'name' => 'ENG',
       'intl_code' => 'en-US',
       'store_id' => 2
+    ],
+    'nl' => [
+      'name' => 'NED',
+      'intl_code' => 'nl-NL',
+      'store_id' => 4
     ]
   ];
 
-  const BASE_URL = 'https://www.otticait.com/';
+  const BASE_URL = 'https://www.quivedo.com/';
 
   /**
    *

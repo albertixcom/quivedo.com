@@ -2,6 +2,7 @@
 
 namespace Disual\StaticProducts\Core;
 
+use Disual\StaticProducts\Helpers\CacheHelper;
 use Envms\FluentPDO\Query;
 use PDO;
 
@@ -9,6 +10,9 @@ use PDO;
 class AppContext {
 
   use Singleton;
+
+  private static string $cacheDataPath;
+  private static string $cacheImagesPath;
 
   /**
    * query builder
@@ -32,7 +36,12 @@ class AppContext {
     // Database
     //
     $this->db = new Query($pdo);
+
 //    $this->db->debug = true;
+
+    self::$cacheDataPath = CacheHelper::getCachePath("/products/data");
+    self::$cacheImagesPath = CacheHelper::getCachePath("/products/images");
+
   }
 
   /**
@@ -42,6 +51,16 @@ class AppContext {
   public function getDB(): Query {
     return $this->db;
   }
+
+  public static function getCacheDataPath(): string {
+    return self::$cacheDataPath;
+  }
+
+  public static function getCacheImagesPath(): string {
+    return self::$cacheImagesPath;
+  }
+
+
 
 
 
