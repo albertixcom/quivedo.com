@@ -1,0 +1,4 @@
+#RewriteEngine on
+#RewriteCond %{REQUEST_URI} /static/cache/products/images/(.*\.jpg)$
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(.*.(png|jpg|jpeg|gif|css|js))$ https://www.otticait.com/cache/products/images/$1 [L,R=301]

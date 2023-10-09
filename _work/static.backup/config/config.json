@@ -1,0 +1,24 @@
+{
+  "app": {
+    "short_name": "StaticProducts",
+    "long_name": "Ottica Static Products: Permette di servire le pagine dei prodotti eliminati dal database",
+    "version": "0.0.1",
+    "software_uuid": "730c404f-6838-4c08-99e9-c5f7e4d54c88"
+  },
+  "sqlite": {
+    "dbname": "static.db"
+  },
+  "orwell": {
+    "endpoint": "https://orwell.disual.it/admintools",
+    "apikey": "64606fba-ed76-11ec-8ea0-0242ac120002"
+  },
+  "prod": {
+
+  },
+  "dev": {
+
+  },
+  "enviroment": "dev"
+
+}
+
