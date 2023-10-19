@@ -1,0 +1,33 @@
+{
+  "app": {
+    "short_name": "OtticaCustomApi",
+    "long_name": "Ottica Custom Api",
+    "version": "0.0.1",
+    "software_uuid": "e5074d40-ed72-11ec-8ea0-0242ac120002"
+  },
+  "mysql": {
+    "host": "localhost",
+    "dbname": "quivedoa_db",
+    "user": "quivedoa_usr",
+    "pass": "mNS+l5qnBatC"
+  },
+  "identity": {
+    "name": "quivedo.com",
+    "apikey": "c53ff81f-05fa-4a53-a38c-f254f60c0e48"
+  },
+  "identities": {
+    "c53ff81f-05fa-4a53-a38c-f254f60c0e48": "Orwell",
+    "ac6f3780-4de9-42a6-a7e8-b4cc02638d27": "Tools_Quivedo"
+  },
+
+  "allowed_hosts": ["127.0.0.1"],
+  "prod": {
+
+  },
+  "dev": {
+
+  },
+  "enviroment": "dev"
+
+}
+

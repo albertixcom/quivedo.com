@@ -1,0 +1,19 @@
+#Options +FollowSymLinks
+#RewriteEngine On
+#
+#RewriteCond %{REQUEST_URI} !^/admintools/index\.php$ [NC]
+#RewriteCond %{REQUEST_URI} ^/admintools [NC]
+#RewriteRule ^admintools/.* /admintools/index.php?$ [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ index.php [L,QSA]
+
+#RewriteEngine On
+#RewriteBase /customapi/
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+#RewriteRule ^admintools/.* /admintools/index.php$ [QSA,L]
+
+

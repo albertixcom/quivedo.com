@@ -1,0 +1,23 @@
+{
+    "name": "disual/ottica-customapi",
+    "description": "Ottica Custom Api",
+    "authors": [
+        {
+            "name": "albertix",
+            "email": "albertix.com@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Disual\\CustomApi\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.4",
+        "monolog/monolog": "^2.5.0",
+        "envms/fluentpdo": "^v2.2.4",
+        "nyholm/psr7": "^1.5.1",
+        "nyholm/psr7-server": "^1.0.2"
+    }
+}
+
